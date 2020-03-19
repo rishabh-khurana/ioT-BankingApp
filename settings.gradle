@@ -1,0 +1,2 @@
+rootProject.name='Bank Assist'
+include ':app'
