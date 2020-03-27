@@ -17,5 +17,10 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.loginButton)
         // customer number entered by user
         val customerInput = findViewById<View>(R.id.customerInput)
+
+        loginButton.setOnClickListener {
+            // TODO : check if customer ID exists in database
+            // TODO : if not show error message
+        }
     }
 }
