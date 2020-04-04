@@ -1,9 +1,12 @@
 package com.example.bankassist
 // TODO:install a native database
-import androidx.appcompat.app.AppCompatActivity
+
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,19 +14,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // customer number from database for testing
-        var cutomerNumber = 123456
-        // login button from login Page
-        val loginButton = findViewById<Button>(R.id.loginButton)
-        // customer number entered by user
-        val customerInput = findViewById<View>(R.id.customerInput)
-        // password entered by user
-        val customerPass = findViewById<View>(R.id.customerInput)
+        fun switchToSelectService(){
+            val selectServiceScreen = Intent(this , SelectService::class.java)
+            startActivity(selectServiceScreen)
+        }
 
-//        loginButton.setOnClickListener {
-//            // TODO : check if customer ID exists in database and then password
-//            // TODO : if password or ID does not exist show error messaage
-//            // TODO : if all is correct naviaget to bank services view
-//        }
+        loginButton.setOnClickListener {
+            // customer details from database for testing
+            val cutomerNumber = 123456.toString()
+            val pass:String =  "password".toString()
+
+            // customer number entered by user
+            val customerIDInput = findViewById<EditText>(R.id.customerIDInput)
+            // password entered by user
+            val passwordInput = findViewById<EditText>(R.id.passwordInput)
+            // TODO : check if customer ID exists in database and then password
+            // TODO : if password or ID does not exist show error messaage
+            val IDVal=customerIDInput.text.toString()
+            val passwordVal=passwordInput.text.toString()
+
+            if(IDVal == cutomerNumber && passwordVal == pass){
+                // Navigate to the Services page
+                println("Navigate to next View")
+                switchToSelectService()
+            }
+        }
     }
 }
