@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        fun showError(Message:String){
+            // TODO: Show error message on view
+        }
+
         fun switchToSelectService(){
             val selectServiceScreen = Intent(this , SelectService::class.java)
             startActivity(selectServiceScreen)
