@@ -1,5 +1,6 @@
 package com.example.bankassist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -15,6 +16,7 @@ class DisplayDetails : AppCompatActivity() {
 
         OkButton.setOnClickListener {
             // Move to feedback page
+            switchToFeedbackPage()
         }
     }
 
@@ -32,6 +34,11 @@ class DisplayDetails : AppCompatActivity() {
         val ticketNumber = findViewById<TextView>(R.id.ticketNumberDisplay)
         queueNumber.text=details[1]
         ticketNumber.text=details[0]
+    }
+
+    fun switchToFeedbackPage(){
+        val selectFeedbackPage = Intent(this , FeedbackPage::class.java)
+        startActivity(selectFeedbackPage)
     }
 
 }
