@@ -14,7 +14,6 @@ class FeedbackPage : AppCompatActivity() {
         closeAppButton.setOnClickListener {
             // Register User Input
             // Close App
-            exitProcess(-1)
         }
     }
 }

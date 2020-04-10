@@ -37,7 +37,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="Please feel free to give us a rating based on your experirnce."
+        android:text="Please feel free to give us a rating based on your experience."
         android:textColor="#040404"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

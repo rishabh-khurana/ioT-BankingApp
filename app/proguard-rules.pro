@@ -20,4 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-renamesourcefileattribute SourceFile
+-keepattributes LineNumberTable, SourceFile
+
 -keep class com.bluecats.sdk.** {*;}
