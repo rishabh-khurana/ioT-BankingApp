@@ -28,10 +28,10 @@ customer experience
 I. Only an Android App will be developed for this project. No iOS App hence only Android
 phones are used.
 
-II. Bluecats bluetooth proximity beacons will be used to detect customers and eventually
+II. [Bluecats](https://www.bluecats.com/) bluetooth proximity [beacons](http://wwwpress.bluecats.com/buy-beacons/) will be used to detect customers and eventually
 collect data.
 
-III. Developed in Javascript, nodeJS. MySQL will be used for databases along with Python for
+III. Developed in Kotlin, Javascript and NodeJS. MySQL will be used for databases along with Python for
 analytics and machine learning.
 
 IV. Bluecats web app for monitoring and if maintenance is required.
