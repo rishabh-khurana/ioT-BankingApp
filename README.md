@@ -18,10 +18,11 @@ experience and hopefully getting branch tasks done quicker.
 
 ## Who is it for?
 
-Developers - People who love to develop apps in order to satisfy the customer’s needs.
+Developers - People who love to develop apps in order to satisfy the customer’s needs.  
+
 Customers - People who love to book things via an app on the mobile
-Banks - Will help their queueing system for their branches and trying to find ways to improve the
-customer experience
+
+Banks - Will help their queueing system for their branches and trying to find ways to improve the customer experience
 
 ## Assumptions/hardware used
 
