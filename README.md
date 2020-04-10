@@ -43,6 +43,10 @@ IV. Bluecats web app for monitoring and if maintenance is required.
 <img src="images/Screenshot_1.png" width="250" height="420">
 
 ### Step 2 - Customer Selects the Service
+
+Once the user selects the service and click on the button below, the app prompts the user to switch on the bluetooth and
+starts watching for a beacon in close range. Once a beacon is detected the application sends a get request to the ticketing API and waits for a response. If a response is received , the application opens the next view to display the Kiosk and ticket details.
+
 <img src="images/Screenshot_2.png" width="250" height="420">
 
 ### Step 3 - Customer Receives the ticket Number
