@@ -55,3 +55,11 @@ starts watching for a beacon in close range. Once a beacon is detected the appli
 
 ### Step 4 - Customer gives Feedback
 <img src="images/Screenshot_4.png" width="250" height="420">
+
+## Running Android Studio from scratch
+
+## Transferring the Banking App to Android
+
+## Running the dashboard
+
+
