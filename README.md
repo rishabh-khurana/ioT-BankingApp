@@ -55,3 +55,41 @@ starts watching for a beacon in close range. Once a beacon is detected the appli
 
 ### Step 4 - Customer gives Feedback
 <img src="images/Screenshot_4.png" width="250" height="420">
+
+## Running Android Studio from scratch
+
+1.	Download Android Studio from here:
+[Android Studio Canary](https://developer.android.com/studio/archive).
+Choose Android Studio 4.1 Canary 4 for download.
+2.	Install Android Studio and just use the recommended settings.
+3.	Now go into the Program files itself and enter the bin folder (/Program Files/Android/android-studio/bin/) 
+4.	Click on studio64 and execute it.
+5.	Clone the whole Github repository onto your local drive.
+6.	Make sure to enable virtualisation on your computer. Hyper-V must be enabled as well. 
+7.	Go to ‘Tools’ in Android Studio, and then go to ‘AVD Manager’, then go to ‘Create Virtual Device’. We chose the default phone, which was the Google Pixel 2. Then Click ‘Next’.
+8.	Choose Oreo API Level 27. This is Android 8.1. Then click ‘Next’.
+9.	Finish the process and wait for the download to finish.
+10.	Select the virtual device. A phone like popup should show up. This is the Android Emulator.
+11.	Now the phone should contain the app called ‘Bank Assist’. 
+
+
+## Transferring the Banking App to Android
+
+1.	Connect the Android device to your computer with your USB cable.
+2.	Go ‘Settings’ in Android, then go to ‘About Phone’.
+3.	Click on ‘Software Information’. Click on ‘Build Number’ 7 times. Now developer mode has been turned on. Go back, scroll down and ‘Developer Options’ should be there.
+4.	In ‘Developer Options’, ensure ‘USB debugging’ is on. 
+5.	Go to the Play Store and install SideSync. Allow SideSync to do features. 
+6.	Download Samsung SideSync from the Samsung website. Download it for PC.
+7.	Run SideSync.
+8.	Make sure that the Android device is connected to the computer with your USB. Run SideSync on both computer and phone and make sure that it is synced.
+9.	Build and run the IoT Banking App on Android Studio. Now select your connected Android device as your deployment target. Click Ok.
+10.	Now your app should be running on your phone (make sure that it is not the emulator).
+11.	Take a test run though the app. See the above 4 mobile screenshots for reference to see if you are on the right track. Here is a sample below:
+Customer ID: 123456
+Password: password
+
+
+## Running the dashboard
+
+
