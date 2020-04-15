@@ -7,14 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.RequestFuture
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,13 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             isCustomerAuthenticated()
-            if(true){
-                // Navigate to the Services page
-                println("Navigate to next View")
-                switchToSelectService()
-            }else{
-                showError("Please check if you have entered the correct ID and password")
-            }
         }
     }
 
@@ -73,26 +65,40 @@ class MainActivity : AppCompatActivity() {
     fun isCustomerAuthenticated() {
         val params = mapOf("customerID" to "123456", "password" to "password")
         val jsonObject = JSONObject(params)
-        var myresp:Boolean = false
         val queue = Volley.newRequestQueue(this)
         val API_URL="https://postman-echo.com/post"
+        val request = JsonObjectRequest(Request.Method.POST, API_URL,jsonObject,
+            Response.Listener { response ->
+                // TODO:Navigate to the Services page if Authenticated
+                // Move to next page if response is correct
+                switchToSelectService()
+            },
+            Response.ErrorListener { error ->
+                Log.d("Hello","That didn't work! ${error}")
+                showError("Please check customer Id and password")
+            })
+        queue.add(request)
+        println("2 is executed")
+    }
 
-        CoroutineScope(IO).launch {
+    fun NewPost(){
+        val queue = Volley.newRequestQueue(this)
+        var myresp = false
+        val params = mapOf("customerID" to "123456", "password" to "password")
+        val jsonObject = JSONObject(params)
+        val future:RequestFuture<JSONObject> = RequestFuture.newFuture();
+        val API_URL="https://postman-echo.com/post"
+        val  request:JsonObjectRequest = JsonObjectRequest(Request.Method.POST, API_URL, jsonObject, future, future)
+        queue.add(request);
 
-            val result1 = async {
-                val request = JsonObjectRequest(Request.Method.POST, API_URL,jsonObject,
-                    Response.Listener { response ->
-                        // Print my response
-                        Log.d("Hello","Response is: ${response}")
-                        myresp = true
-                        println("1 is executed")
-                    },
-                    Response.ErrorListener {  Log.d("Hello","That didn't work!") })
-                queue.add(request)
-
-            }.await()
-            println("2 is executed")
-
+        try {
+            val response: JSONObject = future.get(20, TimeUnit.SECONDS)
+            myresp = true
+            Log.d("Hello", "Response is: ${response}")
+        } catch (error:InterruptedException) {
+            Log.d("Hello","That didn't work! ${error}")
+        } catch (error: ExecutionException) {
+            Log.d("Hello","That didn't work! ${error}")
         }
     }
 
