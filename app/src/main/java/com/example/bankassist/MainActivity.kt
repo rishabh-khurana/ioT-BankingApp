@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             val IDVal=customerIDInput.text.toString()
             val passwordVal=passwordInput.text.toString()
             // check if customer ID exists in database and then password
-            isCustomerAuthenticated(IDVal,passwordVal)
+            // isCustomerAuthenticated(IDVal,passwordVal)
             // TODO:Remove temp line for testing only
             switchToSelectService(IDVal)
         }
