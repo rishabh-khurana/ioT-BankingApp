@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
             val IDVal=customerIDInput.text.toString()
             val passwordVal=passwordInput.text.toString()
             // check if customer ID exists in database and then password
+            // TODO:TEMP
             // isCustomerAuthenticated(IDVal,passwordVal)
-            // TODO:Remove temp line for testing only
             switchToSelectService(IDVal)
         }
     }
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     fun isCustomerAuthenticated(IDVal: String,passwordVal:String) {
         val queue = Volley.newRequestQueue(this)
         // format is of type http://34.87.233.248:5000/auth?"customer_id"="12345"&"password"="Pass123"
-        val API_URL="http://34.87.233.248:5000/auth?{\"customer_id\": \"12345\", \"password\": \"Pass123\"}"
+        val API_URL="http://34.87.233.248:5000/auth?\"customer_id\"=\"${IDVal}\"&\"password\"=\"${passwordVal}\""
         val request = StringRequest(Request.Method.POST, API_URL,
             Response.Listener { response ->
                 // TODO:Navigate to the Services page if Authenticated

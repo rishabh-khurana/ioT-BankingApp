@@ -1,4 +1,5 @@
 package com.example.bankassist
+
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +11,10 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.activity_select_service.*
-import org.json.JSONObject
+
 
 
 class SelectService : AppCompatActivity() {
@@ -78,10 +81,15 @@ class SelectService : AppCompatActivity() {
             Request.Method.POST, API_URL,
             Response.Listener { response:String ->
                 // set values for next activity
+                val mapper = jacksonObjectMapper()
+
+                val details:Details = mapper.readValue(response)
+
+                // convert string response to map
 
                 val cust_ID:String = customer_id
-                val ticketNumber:String = "135"
-                val queueNumber:String ="1F"
+                val ticketNumber:String = details.ticket
+                val queueNumber:String =  details.counter
 
                 // TODO:Navigate to the Services page if Authenticated
                 // Move to next page if response is correct
@@ -98,3 +106,8 @@ class SelectService : AppCompatActivity() {
     }
 
 }
+
+data class Details(
+    var ticket:String,
+    var counter:String
+)
