@@ -1,17 +1,20 @@
 package com.example.bankassist
-// Integrate Bluetooth Adapter
-// Integrate Bluecats SDK
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.bluecats.sdk.*
-import com.bluecats.sdk.BCBeacon.BCBeaconState
-import com.bluecats.sdk.BCSite.BCSiteState
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.activity_select_service.*
-import java.net.URL
+
 
 
 class SelectService : AppCompatActivity() {
@@ -21,30 +24,47 @@ class SelectService : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_service)
 
+        val SERVICE_GROUP = findViewById<RadioGroup>(R.id.serviceGroup)
+
+        // get data from main
+        val i:Intent = getIntent()
+        val CUSTOMER_ID:String = i.getStringExtra("customer_ID")
+
+        println("Customer ID is ${CUSTOMER_ID}")
+
         formButton.setOnClickListener {
             // Switch on bluetooth
-            if(!BlueCatsSDK.isBluetoothEnabled()){
-                SwitchOnBlueTooth()
-            }
+
             // start the Bluecats SDK
-            val APP_TOKEN="4d37f3ac-b672-49d2-a58c-81ce5a1dafba"
-            val Bluecats = BlueCatsSDK.startPurringWithAppToken(applicationContext,APP_TOKEN)
 
             // Send signals to beacon
-            var mBCBeaconManager = BCBeaconManager()
-            mBCBeaconManager.registerCallback(mCallback)
-            // Once Signal is recieved make an API call
-            // Move to diplay details page
 
-            if (mBCBeaconManager.isAttached) {
-                SwitchToDisplayDetails()
-            }
+            // Once Signal is recieved make an API call
+
+            // get service selected by user
+            // TODO:replace invalid radio options with valid ones
+            // get selected radio button from radioGroup
+            val selectedId:Int = SERVICE_GROUP.checkedRadioButtonId
+
+            // find the radiobutton by returned id
+            val radioButton = findViewById<RadioButton>(selectedId)
+
+            // get user selection
+            val SERVICE_INPUT:String = radioButton.text.toString()
+
+
+            // get ticket details
+            getTicketNumber(CUSTOMER_ID,SERVICE_INPUT)
+
         }
 
     }
 
-    fun SwitchToDisplayDetails(){
+    fun SwitchToDisplayDetails(cust_ID:String,ticketNumber:String,queueNumber:String){
         val selectDisplayDetails = Intent(this , DisplayDetails::class.java)
+        selectDisplayDetails.putExtra("customerID",cust_ID)
+        selectDisplayDetails.putExtra("ticketNumber",ticketNumber)
+        selectDisplayDetails.putExtra("queueNumber",queueNumber)
         startActivity(selectDisplayDetails)
     }
 
@@ -53,81 +73,42 @@ class SelectService : AppCompatActivity() {
         startActivityForResult(selectBluetooth,REQUEST_CODE_ENABLE_BLUETOOTH)
     }
 
-    var mCallback: BCBeaconManagerCallback = object : BCBeaconManagerCallback() {
-        override fun didEnterSite(site: BCSite) {
-            super.didEnterSite(site)
-            Log.d("ServiceSelect", "didEnterSite " + site.name)
-        }
+    fun getTicketNumber(customer_id:String,service:String){
+        val queue = Volley.newRequestQueue(this)
+        // api call details
+        val API_URL="http://34.87.233.248:5000/queue?queue_data={\"customer_id\": \"${customer_id}\", \"service\": \"${service}\"}"
+        val request = StringRequest(
+            Request.Method.POST, API_URL,
+            Response.Listener { response:String ->
+                // set values for next activity
+                val mapper = jacksonObjectMapper()
 
-        override fun didExitSite(site: BCSite) {
-            super.didExitSite(site)
-            Log.d("ServiceSelect", "didExitSite " + site.name)
-        }
+                val details:Details = mapper.readValue(response)
 
-        override fun didDetermineState(state: BCSiteState, forSite: BCSite) {
-            super.didDetermineState(state, forSite)
-            Log.d("ServiceSelect", "didDetermineState " + forSite.name)
-        }
+                // convert string response to map
 
-        override fun didEnterBeacons(beacons: List<BCBeacon>) {
-            super.didEnterBeacons(beacons)
-            Log.d("ServiceSelect", "didEnterBeacons " + getBeaconNames(beacons))
-        }
+                val cust_ID:String = customer_id
+                val ticketNumber:String = details.ticket
+                val queueNumber:String =  details.counter
 
-        override fun didExitBeacons(beacons: List<BCBeacon>) {
-            super.didExitBeacons(beacons)
-            Log.d("ServiceSelect", "didExitBeacons " + getBeaconNames(beacons))
-        }
+                // TODO:Navigate to the Services page if Authenticated
+                // Move to next page if response is correct
 
-        override fun didDetermineState(state: BCBeaconState, forBeacon: BCBeacon) {
-            super.didDetermineState(state, forBeacon)
-            Log.d("ServiceSelect", "didDetermineState " + forBeacon.serialNumber)
-        }
+                Log.d("Hello","1 is executed ${response}")
 
-        override fun didRangeBeacons(beacons: List<BCBeacon>) {
-            super.didRangeBeacons(beacons)
-            Log.d("ServiceSelect", "didRangeBeacons " + getBeaconNames(beacons))
-        }
-
-        override fun didRangeBlueCatsBeacons(beacons: List<BCBeacon>) {
-            super.didRangeBlueCatsBeacons(beacons)
-            Log.d("ServiceSelect", "didRangeBlueCatsBeacons " + getBeaconNames(beacons))
-        }
-
-        override fun didRangeNewbornBeacons(newBornBeacons: List<BCBeacon>) {
-            super.didRangeNewbornBeacons(newBornBeacons)
-            Log.d("ServiceSelect", "didRangeNewbornBeacons " + getBeaconNames(newBornBeacons))
-        }
-
-        override fun didRangeIBeacons(iBeacons: List<BCBeacon>) {
-            super.didRangeIBeacons(iBeacons)
-            Log.d("ServiceSelect", "didRangeIBeacons " + getBeaconNames(iBeacons))
-        }
-
-        override fun didRangeEddystoneBeacons(eddystoneBeacons: List<BCBeacon>) {
-            super.didRangeEddystoneBeacons(eddystoneBeacons)
-            Log.d(
-                "ServiceSelect",
-                "didRangeEddystoneBeacons " + getBeaconNames(eddystoneBeacons)
-            )
-        }
-
-        override fun didDiscoverEddystoneURL(eddystoneUrl: URL) {
-            super.didDiscoverEddystoneURL(eddystoneUrl)
-            Log.d("ServiceSelect", "didDiscoverEddystoneURL " + eddystoneUrl.toString())
-        }
+                // Move to diplay details page
+                SwitchToDisplayDetails(cust_ID,ticketNumber,queueNumber)
+            },
+            Response.ErrorListener { error ->
+                // network error
+                Log.d("Hello","That didn't work! ${error}")
+            })
+        queue.add(request)
     }
-
-    private fun getBeaconNames(beacons: List<BCBeacon>): String? {
-        val sb = StringBuilder()
-        sb.append('[')
-        for (beacon in beacons) {
-            sb.append(beacon.serialNumber)
-            sb.append(',')
-        }
-        sb.append(']')
-        return sb.toString()
-    }
-
 
 }
+
+data class Details(
+    var ticket:String,
+    var counter:String
+)

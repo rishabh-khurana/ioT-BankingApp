@@ -1,5 +1,4 @@
 package com.example.bankassist
-
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,33 +10,33 @@ class DisplayDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display_details)
+
+        val queueNumber = findViewById<TextView>(R.id.queueNumberDisplay)
+        val ticketNumber = findViewById<TextView>(R.id.ticketNumberDisplay)
+
+        // get data from select service activity
+        val i:Intent = getIntent()
+        val CUSTOMER_ID:String = i.getStringExtra("customerID")
+        val TICKET_NUMBER:String = i.getStringExtra("ticketNumber")
+        val QUEUE_NUMBER:String = i.getStringExtra("queueNumber")
+
+        queueNumber.text = QUEUE_NUMBER
+        ticketNumber.text = TICKET_NUMBER
+
+
         // Assign the values after API call
         DisplayDetails()
 
         OkButton.setOnClickListener {
             // Move to feedback page
-            switchToFeedbackPage()
+            switchToFeedbackPage(CUSTOMER_ID)
         }
     }
 
-    fun getTicketNumber(urlVal:String):Array<String>{
-        // TODO: DO the API call here
-        val queueNumber:String = "1F".toString()
-        val ticketNumber:String = "135".toString()
-        val details = arrayOf(queueNumber,ticketNumber)
-        return details
-    }
 
-    fun DisplayDetails(){
-        var details = getTicketNumber("UrlVal")
-        val queueNumber = findViewById<TextView>(R.id.queueNumberDisplay)
-        val ticketNumber = findViewById<TextView>(R.id.ticketNumberDisplay)
-        queueNumber.text=details[1]
-        ticketNumber.text=details[0]
-    }
-
-    fun switchToFeedbackPage(){
+    fun switchToFeedbackPage(CustID:String){
         val selectFeedbackPage = Intent(this , FeedbackPage::class.java)
+        selectFeedbackPage.putExtra("customerID",CustID)
         startActivity(selectFeedbackPage)
     }
 
