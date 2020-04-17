@@ -48,28 +48,28 @@
             android:id="@+id/radioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loan"
+            android:text="accounts"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cash Deposit/Withdrawl"
+            android:text="loans"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stock Portfolio"
+            android:text="exchange"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Other"
+            android:text="atm"
             android:textSize="18sp" />
     </RadioGroup>
 

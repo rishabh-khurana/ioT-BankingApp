@@ -100,6 +100,7 @@ class SelectService : AppCompatActivity() {
                 SwitchToDisplayDetails(cust_ID,ticketNumber,queueNumber)
             },
             Response.ErrorListener { error ->
+                // network error
                 Log.d("Hello","That didn't work! ${error}")
             })
         queue.add(request)
