@@ -92,4 +92,7 @@ Password: password
 
 ## Running the dashboard
 
+1. Go to [this site](http://34.87.233.248:3000/) to enter the dashboard itself.
+2. You can play around with the functionality of the dashboard. Examples are deleting entries from the queue.
+
 
