@@ -61,35 +61,35 @@
             android:id="@+id/radioButton5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1 - Poor"
+            android:text="Poor"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2 - Okay"
+            android:text="Okay"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3 - Good"
+            android:text="Good"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="4 - Excellent"
+            android:text="Excellent"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/radioButton9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5 - Outstanding"
+            android:text="Outstanding"
             android:textSize="18sp" />
     </RadioGroup>
 

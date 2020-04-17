@@ -59,6 +59,13 @@
             android:textSize="18sp" />
 
         <RadioButton
+            android:id="@+id/radioButton11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cheques"
+            android:textSize="18sp" />
+
+        <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,6 +77,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="atm"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="general"
             android:textSize="18sp" />
     </RadioGroup>
 
