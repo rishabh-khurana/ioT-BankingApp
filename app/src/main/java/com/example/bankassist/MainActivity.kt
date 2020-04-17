@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     fun isCustomerAuthenticated(IDVal: String,passwordVal:String) {
         val queue = Volley.newRequestQueue(this)
         // format is of type http://34.87.233.248:5000/auth?"customer_id"="12345"&"password"="Pass123"
-        val API_URL="http://34.87.233.248:5000/auth?password=${IDVal}&customer_id=${passwordVal}"
+        val API_URL="http://34.87.233.248:5000/auth?password=${passwordVal}&customer_id=${IDVal}"
         val request = StringRequest(Request.Method.POST, API_URL,
             Response.Listener { response ->
                 // Navigate to the Services page if Authenticated

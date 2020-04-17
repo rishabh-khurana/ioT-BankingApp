@@ -1,8 +1,14 @@
 package com.example.bankassist
 
+import android.Manifest
+import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.RemoteException
 import android.util.Log
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -14,11 +20,15 @@ import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.activity_select_service.*
+import org.altbeacon.beacon.*
 
 
+class SelectService : AppCompatActivity(),BeaconConsumer,MonitorNotifier {
+    val REQUEST_CODE_ENABLE_BLUETOOTH = 1001
+    val PERMISSION_REQUEST_COARSE_LOCATION = 1
+    private var mBeaconManager: BeaconManager? = null
 
-class SelectService : AppCompatActivity() {
-    val REQUEST_CODE_ENABLE_BLUETOOTH = 1001;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +36,25 @@ class SelectService : AppCompatActivity() {
 
         val SERVICE_GROUP = findViewById<RadioGroup>(R.id.serviceGroup)
 
+        // bluetooth
+        getPermission()
+
+        // set beacon manager
+        val beaconManager = BeaconManager.getInstanceForApplication(this)
+        beaconManager!!.getBeaconParsers().add(BeaconParser().
+            setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
+        beaconManager!!.bind(this)
+
+
+
         // get data from main
         val i:Intent = getIntent()
         val CUSTOMER_ID:String = i.getStringExtra("customer_ID")
 
         println("Customer ID is ${CUSTOMER_ID}")
 
+
         formButton.setOnClickListener {
-            // Switch on bluetooth
-
-            // start the Bluecats SDK
-
             // Send signals to beacon
 
             // Once Signal is recieved make an API call
@@ -105,6 +123,107 @@ class SelectService : AppCompatActivity() {
             })
         queue.add(request)
     }
+
+    fun getPermission(){
+        // bluetooth
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.setTitle("This app needs location access")
+                builder.setMessage("Please grant location access so this app can detect beacons.")
+                builder.setPositiveButton(android.R.string.ok, null)
+                builder.setOnDismissListener( DialogInterface.OnDismissListener() {
+                        // ask for permissions
+                        println("it works!")
+                        requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), PERMISSION_REQUEST_COARSE_LOCATION)
+                })
+                builder.show()
+            }
+        }
+
+    }
+
+    // for eddystone integrtion
+    public override fun onResume() {
+        super.onResume()
+        mBeaconManager = BeaconManager.getInstanceForApplication(this.applicationContext)
+        // Detect the main Eddystone-UID frame!
+        mBeaconManager!!.beaconParsers
+            .add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT))
+        mBeaconManager!!.bind(this)
+    }
+
+    // for eddystone integrtion
+    override fun onBeaconServiceConnect() { // Set the two identifiers below to null to detect any beacon regardless of identifiers
+        val myBeaconNamespaceId = Identifier.parse("61687109E602F514C96D")
+        val myBeaconInstanceId = Identifier.parse("000000023692")
+        val region = Region(
+            "my-beacon-region",
+            myBeaconNamespaceId,
+            myBeaconInstanceId,
+            null
+        )
+
+
+        mBeaconManager!!.addMonitorNotifier(this)
+        try {
+            mBeaconManager!!.startMonitoringBeaconsInRegion(region)
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+
+
+    }
+
+    // for eddystone integrtion
+    override fun didEnterRegion(region: Region) {
+        Log.d(
+            "Found", "I detected a beacon in the region with namespace id " + region.id1 +
+                    " and instance id: " + region.id2
+        )
+        try {
+            mBeaconManager!!.startRangingBeaconsInRegion(Region("myRangingUniqueId", null, null, null))
+            //mBeaconManager!!.addRangeNotifier(this)
+
+        } catch (e: RemoteException) {
+        }
+
+    }
+
+    // for eddystone integrtion
+    fun BeaconsInRegion(beacons: Collection<Beacon>, region: Region) {
+        for (beacon in beacons) {
+            if (beacon.getDistance() < 3.0) {
+                Log.d("Close to beacon", "I see a beacon that is less than 3 meters away.")
+                // Perform distance-specific action here
+            }
+            else{
+                Log.d("Close to beacon", "I see a beacon that is more than 3 meters away.")
+            }
+        }
+
+    }
+
+    // for eddystone integrtion
+    override fun didExitRegion(region: Region) {
+        Log.d(
+            "Not Found", "I no longer see a beacon " + region.id2
+        )
+    }
+
+    // for eddystone integrtion
+    override fun didDetermineStateForRegion(
+        state: Int,
+        region: Region
+    ) {
+    }
+
+    // for eddystone integrtion
+    public override fun onPause() {
+        super.onPause()
+        mBeaconManager!!.unbind(this)
+    }
+
 
 }
 
