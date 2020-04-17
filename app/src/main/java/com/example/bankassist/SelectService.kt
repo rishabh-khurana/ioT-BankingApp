@@ -16,9 +16,9 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.activity_select_service.*
 
 
-
 class SelectService : AppCompatActivity() {
-    val REQUEST_CODE_ENABLE_BLUETOOTH = 1001;
+    val PERMISSION_REQUEST_COARSE_LOCATION = 1
+    val REQUEST_CODE_ENABLE_BLUETOOTH = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
