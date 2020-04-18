@@ -1,7 +1,12 @@
 package com.example.bankassist
 
+import android.Manifest
+import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.RadioButton
@@ -18,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_select_service.*
 
 class SelectService : AppCompatActivity(){
     val REQUEST_CODE_ENABLE_BLUETOOTH = 1001
+    val PERMISSION_REQUEST_FINE_LOCATION = 1
+    val PERMISSION_REQUEST_BACKGROUND_LOCATION = 2
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +38,24 @@ class SelectService : AppCompatActivity(){
         val CUSTOMER_ID:String = i.getStringExtra("customer_ID")
 
         println("Customer ID is ${CUSTOMER_ID}")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (this.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                    builder.setTitle("This app needs background location access")
+                    builder.setMessage("Please grant location access so this app can detect beacons in the background.")
+                    builder.setPositiveButton(android.R.string.ok, null)
+                    builder.setOnDismissListener(DialogInterface.OnDismissListener() {
+                        println("it works")
+                        requestPermissions(
+                            arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                            PERMISSION_REQUEST_BACKGROUND_LOCATION)
+                    })
+                    builder.show()
+                }
+            }
+        }
 
 
         formButton.setOnClickListener {
