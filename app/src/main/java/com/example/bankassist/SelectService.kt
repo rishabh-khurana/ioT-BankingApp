@@ -28,6 +28,7 @@ class SelectService : AppCompatActivity(), BeaconConsumer,MonitorNotifier {
     val PERMISSION_REQUEST_FINE_LOCATION = 1
     val PERMISSION_REQUEST_BACKGROUND_LOCATION = 2
     private var mBeaconManager: BeaconManager? = null
+    var BEACONDETECTED:Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,7 +152,9 @@ class SelectService : AppCompatActivity(), BeaconConsumer,MonitorNotifier {
                 Log.d("Hello","1 is executed ${response}")
 
                 // Move to diplay details page
-                SwitchToDisplayDetails(cust_ID,ticketNumber,queueNumber)
+                if (BEACONDETECTED) {
+                    SwitchToDisplayDetails(cust_ID, ticketNumber, queueNumber)
+                }
             },
             Response.ErrorListener { error ->
                 // network error
@@ -196,6 +199,7 @@ class SelectService : AppCompatActivity(), BeaconConsumer,MonitorNotifier {
             "Found", "I detected a beacon in the region with namespace id " + region.id1 +
                     " and instance id: " + region.id2
         )
+        BEACONDETECTED = true
         try {
             mBeaconManager!!.startRangingBeaconsInRegion(Region("myRangingUniqueId", null, null, null))
             //mBeaconManager!!.addRangeNotifier(this)
