@@ -108,12 +108,4 @@ Password: password
 13.	The ticket number should show up.
 14.	Rate the Bank Branch experience from 1-5.
 
-
-## Running the dashboard
-
-1. Go to [this site](http://34.87.233.248:3000/) to enter the dashboard itself.
-2. You can play around with the functionality of the dashboard. Examples are deleting entries from the queue.
-
-<img src="images/Dashboard screenshot.PNG">
-
-
+NOTE: IF USING SIDESYNC DOES NOT WORK PLEASE USE SAMSUNG FLOW TO SYNC WITH PHONE
