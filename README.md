@@ -114,3 +114,7 @@ NOTE: IF USING SIDESYNC DOES NOT WORK PLEASE USE SAMSUNG FLOW TO SYNC WITH PHONE
 2. You can play around with the functionality of the dashboard. Examples are deleting entries from the queue.
 
 <img src="images/Dashboard screenshot.PNG">
+
+<img src="images/Analytics Screenshot.PNG">
+
+
