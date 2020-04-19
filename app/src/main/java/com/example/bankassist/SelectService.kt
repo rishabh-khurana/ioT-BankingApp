@@ -109,7 +109,9 @@ class SelectService : AppCompatActivity(), BeaconConsumer,MonitorNotifier {
 
 
             // get ticket details
-            getTicketNumber(CUSTOMER_ID,SERVICE_INPUT)
+            if (BEACONDETECTED) {
+                getTicketNumber(CUSTOMER_ID, SERVICE_INPUT)
+            }
 
         }
 
@@ -152,9 +154,9 @@ class SelectService : AppCompatActivity(), BeaconConsumer,MonitorNotifier {
                 Log.d("Hello","1 is executed ${response}")
 
                 // Move to diplay details page
-                if (BEACONDETECTED) {
+
                     SwitchToDisplayDetails(cust_ID, ticketNumber, queueNumber)
-                }
+
             },
             Response.ErrorListener { error ->
                 // network error
@@ -214,6 +216,7 @@ class SelectService : AppCompatActivity(), BeaconConsumer,MonitorNotifier {
             if (beacon.getDistance() < 3.0) {
                 Log.d("Close to beacon", "I see a beacon that is less than 3 meters away.")
                 // Perform distance-specific action here
+                BEACONDETECTED = true
             }
         }
 
