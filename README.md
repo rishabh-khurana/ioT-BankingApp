@@ -27,7 +27,7 @@ Banks - Will help their queueing system for their branches and trying to find wa
 ## Assumptions/hardware used
 
 I. Only an Android App will be developed for this project. No iOS App hence only Android
-phones are used.
+phones are used. Requires Android 10.0 or later.
 
 II. [Bluecats](https://www.bluecats.com/) bluetooth proximity [beacons](http://wwwpress.bluecats.com/buy-beacons/) will be used to detect customers and eventually
 collect data.
@@ -86,15 +86,35 @@ Choose Android Studio 4.1 Canary 4 for download.
 9.	Build and run the IoT Banking App on Android Studio. Now select your connected Android device as your deployment target. Click Ok.
 10.	Now your app should be running on your phone (make sure that it is not the emulator).
 11.	Take a test run though the app. See the above 4 mobile screenshots for reference to see if you are on the right track. Here is a sample below:
-Customer ID: 123456
+Customer ID: 11472
 Password: password
 
+## Connecting the Bluecats beacon to Eddystone UID mode
 
-## Running the dashboard
+1.	Register for an account on [Bluecats]https://app.bluecats.com/
+2.	You will need to be invited as a contributor in the group as a called IoT Bank Branch.
+3.	Once invited, go to the Beacons section. You should see if the beacon is in Eddystone UID mode. If it is not, proceed to Step 4.
+4.	Click on the Settings button for the beacon (this is represented by the gear).
+5.	Go to settings and updates. Turn Eddystone mode on.
+6.	Then you will need to download the BC reveal app from the App store or Google Play store from your mobile.
+7.	Login into the BC reveal app using your existing account.
+8.	Then go to Team -> IoT Bank Branch -> Beacons. Select the beacon you want to update. Then update the settings.
+9.	Now go back to the [Bluecats app site]https://app.bluecats.com/. Click on the dashboard and go to the settings to make the final changed to convert to Eddystone UID mode. Note that only the team owner has permission to do this.
+
+## Running the App from the Android phone.
+10.	Enter the Customer ID and Password. Make sure it is entered correctly as we get these details from the database.
+11.	Select the service you want. There are 6 options: Accounts, ATM, Cheques, Exchange, Loan and General. 
+12.	Ensure that it only goes to the next page if you are less than 3 metres from the Bluecats beacon. 
+13.	The ticket number should show up.
+14.	Rate the Bank Branch experience from 1-5.
+
+NOTE: IF USING SIDESYNC DOES NOT WORK PLEASE USE SAMSUNG FLOW TO SYNC WITH PHONE
 
 1. Go to [this site](http://34.87.233.248:3000/) to enter the dashboard itself.
 2. You can play around with the functionality of the dashboard. Examples are deleting entries from the queue.
 
 <img src="images/Dashboard screenshot.PNG">
+
+<img src="images/Analytics Screenshot.PNG">
 
 
